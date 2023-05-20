@@ -41,10 +41,6 @@ bool plane::plane_hit(const point3& position, point3& hit_normal) {
     point3 bottom_v3(-2.5f, 0.0f, 3.0f);
     point3 bottom_v4(-5.5f, -0.2f, 3.0f);
 
-    point3 top_v1(3.5f, 3.0f, -3.0f);
-    point3 top_v2(5.0f, 3.2f, -3.0f);
-    point3 top_v3(5.0f, 3.2f, 3.0f);
-    point3 top_v4(3.5f, 3.0f, 3.0f);
 
     point3 diag_v1(-2.5f, 0.0f, -3.0f);
     point3 diag_v2(2.5f, 3.0f, -3.0f);
@@ -83,9 +79,3 @@ bool plane::plane_hit(const point3& position, point3& hit_normal) {
     hit_normal = point3(0, 0, 0);
     return false;
 }
-
-
-
-
-
-

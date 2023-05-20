@@ -59,8 +59,3 @@ void particle::set_State(point3 new_x, point3 new_v) {
     }
 }
 
-bool particle::intersects(const particle& other) {
-    float distance = (x_ - other.x_).length(); 
-    return distance < (1.5f + 1.5f);
-}
-

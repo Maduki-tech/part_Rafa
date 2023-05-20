@@ -42,16 +42,35 @@ void display() {
 
     glBegin(GL_POINTS);
 
+    float restitution = 0.5f;
     for (int i = 0; i < array_parts.size(); i++) {
         for (int j = i + 1; j < array_parts.size(); j++) {
-            if (array_parts[i].intersects(array_parts[j])) {
-                // Calculate the direction of the force
-                point3 dir = array_parts[i].x_ - array_parts[j].x_;
+            // Calculate the distance between the two particles
+            vec3 dir = array_parts[i].x_ - array_parts[j].x_;
+            float distance = dir.length();
+
+            // Consider two particles have collided when they occupy the same
+            // space
+            if (distance < 0.01) {
                 dir.normalize();
 
-                // Change their velocities
-                array_parts[i].v_ = array_parts[i].v_ - dir;
-                array_parts[j].v_ = array_parts[j].v_ + dir;
+                // Calculate relative velocity
+                vec3 relVel = array_parts[i].v_ - array_parts[j].v_;
+
+                // Calculate velocity along the normal direction
+                float velAlongNormal = dot(relVel, dir);
+
+                // Skip if velocities are separating
+                if (velAlongNormal > 0)
+                    continue;
+
+                // Calculate the collision impulse
+                float impulse = -(1 + restitution) * velAlongNormal /
+                                (1 / array_parts[i].m_ + 1 / array_parts[j].m_);
+
+                // Apply impulse
+                array_parts[i].v_ += impulse / array_parts[i].m_ * dir;
+                array_parts[j].v_ -= impulse / array_parts[j].m_ * dir;
             }
         }
 
